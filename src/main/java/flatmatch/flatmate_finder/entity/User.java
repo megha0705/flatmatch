@@ -36,10 +36,8 @@ public class User extends BaseEntity {
     private UserStatus status = UserStatus.ACTIVE;
 
     @Column(name = "email_verified", nullable = false)
-    private boolean emailVerified;
+    private boolean emailVerified = false;
 
-    @Column(name = "domain_verified", nullable = false)
-    private boolean domainVerified;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

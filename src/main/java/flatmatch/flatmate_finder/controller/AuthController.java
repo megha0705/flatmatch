@@ -1,6 +1,7 @@
 
 package flatmatch.flatmate_finder.controller;
 
+import flatmatch.flatmate_finder.dto.MessageResponse;
 import flatmatch.flatmate_finder.service.AuthService;
 
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,16 @@ public class AuthController {
         String token = authService.login(email, password);
 
         return ResponseEntity.ok(token);
+    }
+
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<MessageResponse> verifyOtp(@RequestParam String email , @RequestParam String otp) {
+        return ResponseEntity.ok(new MessageResponse(authService.verifyOtp(email, otp)));
+    }
+
+    @PostMapping("/resend-otp")
+    public ResponseEntity<MessageResponse> resendOtp(@RequestParam String email ) {
+        return ResponseEntity.ok(new MessageResponse(authService.resendOtp(email)));
     }
 }

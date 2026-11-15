@@ -21,6 +21,9 @@ public class EmailVerificationToken extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "attempts", nullable = false)
+    @Builder.Default
+    private Short attempts = 0;
     @Column(name = "token_hash", nullable = false)
     private String tokenHash;
 
