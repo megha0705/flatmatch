@@ -1,0 +1,1 @@
+ALTER TABLE listing_photos ADD COLUMN public_id TEXT;
