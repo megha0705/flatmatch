@@ -42,6 +42,9 @@ public class Profile extends BaseEntity {
     @Column(name = "occupation", nullable = false)
     private Occupation occupation;
 
+    @Column(name = "photo_public_id")
+    private String photoPublicId;
+
     @Column(name = "organization")
     private String organization;
 

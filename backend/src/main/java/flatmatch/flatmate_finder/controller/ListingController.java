@@ -39,7 +39,7 @@ public class ListingController {
         return listingService.create(auth.getName(), request, photos);
     }
 
-/*    @GetMapping
+    @GetMapping
     public PageResponse<ListingResponse> search(
             @ModelAttribute ListingSearchCriteria criteria,
             @RequestParam(defaultValue = "0") int page,
@@ -47,9 +47,9 @@ public class ListingController {
             @RequestParam(defaultValue = "newest") String sort,
             @RequestParam(defaultValue = "desc") String direction,
             Authentication auth) {
-        return listingService.search(criteria, auth.getName(), pageable(page, size, sort, direction));
+        String email = auth != null ? auth.getName() : null;
+        return listingService.search(criteria, email, pageable(page, size, sort, direction));
     }
-*/
     @GetMapping("/mine")
     public PageResponse<ListingResponse> mine(
             @RequestParam(defaultValue = "0") int page,

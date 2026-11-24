@@ -98,6 +98,10 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/auth/**"
                         ).permitAll()
+                        .requestMatchers(
+                                org.springframework.http.HttpMethod.GET,
+                                "/api/listings"
+                        ).permitAll()
 
                         // All other endpoints require authentication
                         .anyRequest().authenticated()

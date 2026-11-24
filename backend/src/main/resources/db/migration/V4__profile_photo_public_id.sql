@@ -1,0 +1,1 @@
+ALTER TABLE profiles ADD COLUMN photo_public_id TEXT;

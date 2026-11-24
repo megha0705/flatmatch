@@ -82,18 +82,19 @@ public class ListingService {
         return toResponse(listing, me.getId());
     }
 
-   /* @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public PageResponse<ListingResponse> search(ListingSearchCriteria criteria,
                                                 String email, Pageable pageable) {
-        User me = currentUser(email);
-        if (criteria.getMinRent() != null && criteria.getMaxRent() != null
+        User me = email != null ? currentUser(email) : null;
+        UUID meId = me != null ? me.getId() : null;
+        if (criteria != null && criteria.getMinRent() != null && criteria.getMaxRent() != null
                 && criteria.getMinRent() > criteria.getMaxRent()) {
             throw bad("minRent cannot be greater than maxRent");
         }
         Page<Listing> page = listingRepository.findAll(
-                ListingSpecifications.search(criteria, me.getId()), pageable);
-        return PageResponse.of(page, toResponses(page.getContent(), me.getId()));
-    }*/
+                ListingSpecifications.search(criteria, meId), pageable);
+        return PageResponse.of(page, toResponses(page.getContent(), meId));
+    }
 
     @Transactional(readOnly = true)
     public PageResponse<ListingResponse> mine(String email, Pageable pageable) {
