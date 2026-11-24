@@ -5,6 +5,8 @@ import HowItWorksSection from './components/HowItWorksSection';
 import FeaturedFlatmates from './components/FeaturedFlatmates';
 import UserHomePage from './components/UserHomePage';
 import AuthModal from './components/AuthModal';
+import PostAuthPromptModal from './components/PostAuthPromptModal';
+import CreateListingModal from './components/CreateListingModal';
 import Footer from './components/Footer';
 import { getCurrentUser, removeCurrentUser, removeToken, checkBackendHealth } from './api/auth';
 
@@ -15,6 +17,10 @@ export default function App() {
   const [authMode, setAuthMode] = useState('login');
   const [selectedCity, setSelectedCity] = useState('All');
   const [backendOnline, setBackendOnline] = useState(false);
+
+  // Post-auth prompt modal state
+  const [showPostAuthPrompt, setShowPostAuthPrompt] = useState(false);
+  const [createListingModalOpen, setCreateListingModalOpen] = useState(false);
 
   // Check backend connectivity on mount
   useEffect(() => {
@@ -36,6 +42,8 @@ export default function App() {
     setUser(authenticatedUser);
     setAuthModalOpen(false);
     setCurrentView('dashboard');
+    // Prompt user whether they want to create a listing or explore listings
+    setShowPostAuthPrompt(true);
   };
 
   const handleLogout = () => {
@@ -47,6 +55,9 @@ export default function App() {
 
   const handleSearchCity = (city) => {
     setSelectedCity(city);
+    if (user) {
+      setCurrentView('dashboard');
+    }
   };
 
   return (
@@ -109,6 +120,30 @@ export default function App() {
         initialMode={authMode}
         onClose={() => setAuthModalOpen(false)}
         onAuthSuccess={handleAuthSuccess}
+      />
+
+      {/* Optional Post-Auth Choice Modal */}
+      <PostAuthPromptModal
+        isOpen={showPostAuthPrompt}
+        userName={user?.name || user?.email?.split('@')[0]}
+        onClose={() => setShowPostAuthPrompt(false)}
+        onCreateListing={() => {
+          setShowPostAuthPrompt(false);
+          setCreateListingModalOpen(true);
+        }}
+        onBrowseListings={() => {
+          setShowPostAuthPrompt(false);
+          setCurrentView('dashboard');
+        }}
+      />
+
+      {/* Standalone Create Listing Modal */}
+      <CreateListingModal
+        isOpen={createListingModalOpen}
+        onClose={() => setCreateListingModalOpen(false)}
+        onCreated={(newListing) => {
+          setCurrentView('dashboard');
+        }}
       />
     </div>
   );

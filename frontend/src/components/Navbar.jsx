@@ -42,6 +42,19 @@ export default function Navbar({
           >
             Find a flatmate
           </button>
+
+          <button 
+            onClick={() => {
+              if (user) {
+                setCurrentView('dashboard');
+              } else {
+                onOpenAuth('login');
+              }
+            }} 
+            className="hover:text-[#DE5737] transition-colors"
+          >
+            Rooms & Listings
+          </button>
           
           <button 
             onClick={() => {
