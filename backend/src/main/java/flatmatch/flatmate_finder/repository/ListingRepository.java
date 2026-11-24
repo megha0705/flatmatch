@@ -1,6 +1,7 @@
 package flatmatch.flatmate_finder.repository;
 
 import flatmatch.flatmate_finder.entity.Listing;
+import flatmatch.flatmate_finder.entity.enums.ListingStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface ListingRepository extends JpaRepository<Listing, UUID>, JpaSpecificationExecutor<Listing> {}
+public interface ListingRepository extends JpaRepository<Listing, UUID>, JpaSpecificationExecutor<Listing> {
+    int countByOwnerIdAndStatus(UUID userId, ListingStatus listingStatus);
+
+    Page<Listing> findByOwnerId(UUID id, Pageable pageable);
+}

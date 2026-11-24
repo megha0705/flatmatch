@@ -21,6 +21,9 @@ public class ListingPhoto extends BaseEntity {
     @JoinColumn(name = "listing_id")
     private Listing listing;
 
+    @Column(name = "public_id")
+    private String publicId;
+
     @Column(name = "url", nullable = false)
     private String url;
 
