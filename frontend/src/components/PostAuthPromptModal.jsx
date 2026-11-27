@@ -1,8 +1,19 @@
 import React from 'react';
-import { Home, Search, Sparkles, X, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Home, Search, Sparkles, X, ArrowRight, CheckCircle2 } from 'lucide-react';
 
-export default function PostAuthPromptModal({ isOpen, onClose, userName, onCreateListing, onBrowseListings }) {
+export default function PostAuthPromptModal({ 
+  isOpen, 
+  onClose, 
+  userName, 
+  badge = 'Welcome to roomie',
+  title,
+  subtitle = "Choose what you'd like to do next. You can always do both anytime!",
+  onCreateListing, 
+  onBrowseListings 
+}) {
   if (!isOpen) return null;
+
+  const headerTitle = title || `Hi ${userName || 'there'}, what brings you here today?`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm animate-in fade-in duration-200">
@@ -22,13 +33,13 @@ export default function PostAuthPromptModal({ isOpen, onClose, userName, onCreat
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FDF1EC] text-[#DE5737] text-xs font-bold uppercase tracking-wider mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            Welcome to roomie
+            {badge}
           </div>
           <h2 className="text-2xl font-black text-[#211B17] tracking-tight">
-            Hi {userName || 'there'}, what brings you here today?
+            {headerTitle}
           </h2>
           <p className="text-xs sm:text-sm text-stone-500 mt-1">
-            Choose what you'd like to do first. You can always do both anytime!
+            {subtitle}
           </p>
         </div>
 

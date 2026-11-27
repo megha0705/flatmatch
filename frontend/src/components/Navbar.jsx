@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
-import { Heart, ArrowRight, User as UserIcon, LogOut, LayoutDashboard, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Heart, ArrowRight, User as UserIcon, LogOut, LayoutDashboard } from 'lucide-react';
+import { capitalizeWords } from '../utils/formatters';
 
 export default function Navbar({ 
   user, 
+  userProfile, 
   onOpenAuth, 
   onLogout, 
+  onOpenProfile,
   currentView, 
-  setCurrentView,
-  backendOnline 
+  setCurrentView
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const displayName = userProfile?.name || user?.name || user?.email?.split('@')[0] || 'User';
+  const initialLetter = displayName ? displayName[0].toUpperCase() : 'U';
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#ECE4DB]/60 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
-        {/* Brand Logo matching design */}
+        {/* Brand Logo */}
         <div 
           onClick={() => setCurrentView('landing')} 
           className="flex items-center gap-2 cursor-pointer group select-none"
@@ -29,7 +34,7 @@ export default function Navbar({
           </span>
         </div>
 
-        {/* Center navigation links */}
+        {/* Center navigation links without duplicates or confusing toggles */}
         <nav className="hidden md:flex items-center gap-8 text-[15px] font-medium text-stone-700">
           <button 
             onClick={() => {
@@ -51,9 +56,11 @@ export default function Navbar({
                 onOpenAuth('login');
               }
             }} 
-            className="hover:text-[#DE5737] transition-colors"
+            className={`hover:text-[#DE5737] transition-colors ${
+              currentView === 'dashboard' ? 'text-[#DE5737] font-semibold' : ''
+            }`}
           >
-            Rooms & Listings
+            Explore Listings
           </button>
           
           <button 
@@ -67,77 +74,93 @@ export default function Navbar({
           >
             How it works
           </button>
-
-          {/* Backend Status indicator */}
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-stone-100 border border-stone-200/70 text-stone-600">
-            <span className={`w-2 h-2 rounded-full ${backendOnline ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
-            {backendOnline ? 'API Connected' : 'Demo API Mode'}
-          </div>
         </nav>
 
         {/* Right CTA / Auth controls */}
         <div className="flex items-center gap-3 sm:gap-4">
           {user ? (
-            <div className="flex items-center gap-3">
+            <div className="relative">
               <button
-                onClick={() => setCurrentView(currentView === 'dashboard' ? 'landing' : 'dashboard')}
-                className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all ${
-                  currentView === 'dashboard'
-                    ? 'bg-stone-200 text-stone-800'
-                    : 'bg-[#FDF1EC] text-[#DE5737] hover:bg-[#FBE5DB]'
-                }`}
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-full bg-white border border-[#ECE4DB] shadow-sm hover:border-[#DE5737] transition-all"
               >
-                <LayoutDashboard className="w-4 h-4" />
-                <span className="hidden sm:inline">User Home</span>
-              </button>
-
-              <div className="relative">
-                <button
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full bg-white border border-[#ECE4DB] shadow-sm hover:border-[#DE5737] transition-all"
-                >
+                {userProfile?.photoUrl ? (
+                  <img 
+                    src={userProfile.photoUrl} 
+                    alt={displayName} 
+                    className="w-7 h-7 rounded-full object-cover border border-stone-200"
+                  />
+                ) : (
                   <div className="w-7 h-7 rounded-full bg-[#DE5737] text-white font-bold text-xs flex items-center justify-center uppercase">
-                    {user.name ? user.name[0] : 'U'}
-                  </div>
-                  <span className="text-xs font-semibold text-stone-800 max-w-[100px] truncate hidden sm:inline">
-                    {user.name || user.email}
-                  </span>
-                </button>
-
-                {menuOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-stone-100 p-2 z-50 animate-in fade-in slide-in-from-top-2">
-                    <div className="px-3 py-2 border-b border-stone-100 mb-1">
-                      <p className="text-xs text-stone-500">Signed in as</p>
-                      <p className="text-xs font-semibold text-stone-900 truncate">{user.email}</p>
-                      {user.isDemo && (
-                        <span className="inline-block mt-1 text-[10px] bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full font-medium border border-amber-200">
-                          Demo Session
-                        </span>
-                      )}
-                    </div>
-                    <button
-                      onClick={() => {
-                        setCurrentView('dashboard');
-                        setMenuOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 text-xs font-medium text-stone-700 hover:bg-[#FAF7F2] hover:text-[#DE5737] rounded-xl flex items-center gap-2 transition-colors"
-                    >
-                      <LayoutDashboard className="w-4 h-4" />
-                      Dashboard & Matches
-                    </button>
-                    <button
-                      onClick={() => {
-                        onLogout();
-                        setMenuOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 rounded-xl flex items-center gap-2 transition-colors"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      Sign Out
-                    </button>
+                    {initialLetter}
                   </div>
                 )}
-              </div>
+                <span className="text-xs font-semibold text-stone-800 max-w-[110px] truncate hidden sm:inline">
+                  {displayName}
+                </span>
+              </button>
+
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-stone-100 p-2 z-50 animate-in fade-in slide-in-from-top-2">
+                  <div className="px-3 py-2 border-b border-stone-100 mb-1">
+                    <div className="flex items-center gap-2">
+                      {userProfile?.photoUrl ? (
+                        <img 
+                          src={userProfile.photoUrl} 
+                          alt={displayName} 
+                          className="w-8 h-8 rounded-full object-cover border border-stone-200"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-[#DE5737] text-white font-bold text-xs flex items-center justify-center uppercase">
+                          {initialLetter}
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-bold text-stone-900 truncate">{displayName}</p>
+                        <p className="text-[11px] text-stone-500 truncate">{user.email}</p>
+                      </div>
+                    </div>
+                    {userProfile?.city && (
+                      <p className="text-[10px] text-stone-400 mt-1.5">
+                        📍 {capitalizeWords(userProfile.city)}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setCurrentView('dashboard');
+                      setMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 text-xs font-medium text-stone-700 hover:bg-[#FAF7F2] hover:text-[#DE5737] rounded-xl flex items-center gap-2 transition-colors"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    Dashboard & Listings
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onOpenProfile();
+                      setMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 text-xs font-medium text-stone-700 hover:bg-[#FAF7F2] hover:text-[#DE5737] rounded-xl flex items-center gap-2 transition-colors"
+                  >
+                    <UserIcon className="w-4 h-4 text-[#DE5737]" />
+                    My Profile & Avatar
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onLogout();
+                      setMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 rounded-xl flex items-center gap-2 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <>

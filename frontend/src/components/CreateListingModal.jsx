@@ -23,11 +23,13 @@ const COMMON_AMENITIES = [
 ];
 
 const CITIES = [
+  "Kolkata",
   "Bangalore",
   "Mumbai",
   "Pune",
   "Delhi NCR",
-  "Hyderabad"
+  "Hyderabad",
+  "Chennai"
 ];
 
 export default function CreateListingModal({ isOpen, onClose, onCreated }) {
@@ -38,8 +40,8 @@ export default function CreateListingModal({ isOpen, onClose, onCreated }) {
   const [addressHint, setAddressHint] = useState('');
   const [rentPerPerson, setRentPerPerson] = useState('');
   const [deposit, setDeposit] = useState('');
-  const [roomType, setRoomType] = useState('SINGLE');
-  const [furnishing, setFurnishing] = useState('FULLY_FURNISHED');
+  const [roomType, setRoomType] = useState('PRIVATE_ROOM');
+  const [furnishing, setFurnishing] = useState('FURNISHED');
   const [genderAllowed, setGenderAllowed] = useState('ANY');
   const [currentFlatmates, setCurrentFlatmates] = useState(1);
   const [spotsAvailable, setSpotsAvailable] = useState(1);
@@ -291,9 +293,9 @@ export default function CreateListingModal({ isOpen, onClose, onCreated }) {
                 onChange={(e) => setRoomType(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:border-[#DE5737] outline-none bg-white"
               >
-                <option value="SINGLE">Private Bedroom</option>
-                <option value="SHARED">Shared Room</option>
-                <option value="ENTIRE_FLAT">Entire Flat / House</option>
+                <option value="PRIVATE_ROOM">Private room</option>
+                <option value="SHARED_ROOM">Shared room</option>
+                <option value="ENTIRE_FLAT">Entire flat</option>
               </select>
             </div>
 
@@ -306,8 +308,8 @@ export default function CreateListingModal({ isOpen, onClose, onCreated }) {
                 onChange={(e) => setFurnishing(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:border-[#DE5737] outline-none bg-white"
               >
-                <option value="FULLY_FURNISHED">Fully Furnished</option>
-                <option value="SEMI_FURNISHED">Semi Furnished</option>
+                <option value="FURNISHED">Furnished</option>
+                <option value="SEMI_FURNISHED">Semi-furnished</option>
                 <option value="UNFURNISHED">Unfurnished</option>
               </select>
             </div>
@@ -321,9 +323,9 @@ export default function CreateListingModal({ isOpen, onClose, onCreated }) {
                 onChange={(e) => setGenderAllowed(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:border-[#DE5737] outline-none bg-white"
               >
-                <option value="ANY">Any / Co-ed</option>
-                <option value="FEMALE_ONLY">Female Only</option>
-                <option value="MALE_ONLY">Male Only</option>
+                <option value="ANY">Anyone</option>
+                <option value="MALE">Men only</option>
+                <option value="FEMALE">Women only</option>
               </select>
             </div>
           </div>

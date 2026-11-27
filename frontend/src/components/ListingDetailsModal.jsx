@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { 
-  X, MapPin, IndianRupee, Shield, Users, Bed, Calendar, 
-  Check, MessageSquare, Sparkles, ChevronLeft, ChevronRight, Phone
+  X, MapPin, Check, MessageSquare, ChevronLeft, ChevronRight 
 } from 'lucide-react';
+import { 
+  formatRoomType, 
+  formatFurnishing, 
+  formatGenderAllowed, 
+  formatIndianPrice, 
+  formatDate, 
+  formatSpots, 
+  formatFlatmates,
+  capitalizeWords 
+} from '../utils/formatters';
+import EmailVerifiedBadge from './EmailVerifiedBadge';
 
-export default function ListingDetailsModal({ listing, isOpen, onClose, onContact }) {
+export default function ListingDetailsModal({ listing, isOpen, onClose }) {
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
 
   if (!isOpen || !listing) return null;
@@ -20,6 +30,8 @@ export default function ListingDetailsModal({ listing, isOpen, onClose, onContac
   const prevPhoto = () => {
     setActivePhotoIdx((prev) => (prev - 1 + photos.length) % photos.length);
   };
+
+  const isOwnerVerified = Boolean(listing.owner?.emailVerified || listing.owner?.verified);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200">
@@ -69,15 +81,15 @@ export default function ListingDetailsModal({ listing, isOpen, onClose, onContac
 
           {/* Title & Location Overlay */}
           <div className="absolute bottom-4 left-4 right-4 text-white">
-            <span className="inline-block bg-[#DE5737] text-white px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider mb-2">
-              {listing.roomType?.replace('_', ' ')}
+            <span className="inline-block bg-[#DE5737] text-white px-2.5 py-0.5 rounded-md text-[11px] font-bold tracking-wider mb-2">
+              {formatRoomType(listing.roomType)}
             </span>
             <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight leading-tight">
               {listing.title}
             </h2>
             <div className="flex items-center gap-2 text-xs text-stone-200 mt-1">
               <MapPin className="w-3.5 h-3.5 text-[#DE5737]" />
-              <span>{listing.locality}, {listing.city} {listing.addressHint && `(${listing.addressHint})`}</span>
+              <span>{listing.locality}, {capitalizeWords(listing.city)} {listing.addressHint && `(${listing.addressHint})`}</span>
             </div>
           </div>
         </div>
@@ -90,26 +102,26 @@ export default function ListingDetailsModal({ listing, isOpen, onClose, onContac
             <div>
               <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider block">Rent</span>
               <span className="text-lg font-black text-[#DE5737]">
-                ₹{listing.rentPerPerson?.toLocaleString()}
+                {formatIndianPrice(listing.rentPerPerson)}
                 <span className="text-xs text-stone-500 font-normal">/mo</span>
               </span>
             </div>
             <div>
               <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider block">Deposit</span>
               <span className="text-base font-bold text-stone-900">
-                ₹{listing.deposit ? listing.deposit.toLocaleString() : 'N/A'}
+                {listing.deposit ? formatIndianPrice(listing.deposit) : 'N/A'}
               </span>
             </div>
             <div>
               <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider block">Furnishing</span>
-              <span className="text-sm font-bold text-stone-900 capitalize">
-                {listing.furnishing?.replace('_', ' ').toLowerCase()}
+              <span className="text-sm font-bold text-stone-900">
+                {formatFurnishing(listing.furnishing)}
               </span>
             </div>
             <div>
               <span className="text-[11px] text-stone-500 font-bold uppercase tracking-wider block">Available From</span>
               <span className="text-sm font-bold text-stone-900">
-                {listing.availableFrom || 'Immediately'}
+                {formatDate(listing.availableFrom) || 'Immediately'}
               </span>
             </div>
           </div>
@@ -124,16 +136,16 @@ export default function ListingDetailsModal({ listing, isOpen, onClose, onContac
             </div>
           )}
 
-          {/* Additional Info Badges */}
+          {/* Additional Info Badges with Proper Pluralisation and Friendly Enums */}
           <div className="flex flex-wrap gap-2 text-xs">
             <span className="px-3 py-1 rounded-full bg-stone-100 text-stone-700 font-medium">
-              👥 {listing.currentFlatmates || 0} Current flatmate(s)
+              👥 {formatFlatmates(listing.currentFlatmates)}
             </span>
             <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
-              ✨ {listing.spotsAvailable || 1} Spot(s) open
+              ✨ {formatSpots(listing.spotsAvailable)}
             </span>
             <span className="px-3 py-1 rounded-full bg-amber-50 text-amber-800 font-medium border border-amber-200">
-              🏷️ Gender allowed: {listing.genderAllowed?.replace('_', ' ')}
+              🏷️ Gender allowed: {formatGenderAllowed(listing.genderAllowed)}
             </span>
           </div>
 
@@ -152,33 +164,33 @@ export default function ListingDetailsModal({ listing, isOpen, onClose, onContac
             </div>
           )}
 
-          {/* Host Card */}
-          <div className="bg-[#FAF7F2] p-4 rounded-2xl border border-[#ECE4DB] flex items-center justify-between">
+          {/* Host Card with Owner Name, Email Verified Badge, and Disabled Contact (coming soon) */}
+          <div className="bg-[#FAF7F2] p-4 sm:p-5 rounded-2xl border border-[#ECE4DB] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-[#DE5737] text-white font-extrabold text-lg flex items-center justify-center uppercase">
+              <div className="w-12 h-12 rounded-full bg-[#DE5737] text-white font-extrabold text-lg flex items-center justify-center uppercase shrink-0">
                 {listing.owner?.name ? listing.owner.name[0] : 'H'}
               </div>
               <div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2 flex-wrap">
                   <h4 className="text-sm font-bold text-stone-900">{listing.owner?.name || 'Flatmate Host'}</h4>
-                  {listing.owner?.verified && (
-                    <Shield className="w-4 h-4 text-emerald-500 fill-emerald-500/20" title="Verified Member" />
-                  )}
+                  {isOwnerVerified && <EmailVerifiedBadge />}
                 </div>
-                <p className="text-xs text-stone-500">Verified Housemate on Roomie</p>
+                <p className="text-xs text-stone-500 mt-0.5">Listing Owner on Roomie</p>
               </div>
             </div>
 
-            <button
-              onClick={() => {
-                onClose();
-                if (onContact) onContact(listing);
-              }}
-              className="bg-[#DE5737] hover:bg-[#CA4929] text-white font-bold px-5 py-2.5 rounded-full text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-all"
-            >
-              <MessageSquare className="w-4 h-4" />
-              <span>Message Host</span>
-            </button>
+            <div className="flex flex-col sm:items-end gap-1">
+              <button
+                disabled
+                className="bg-stone-200/80 text-stone-500 font-bold px-5 py-2.5 rounded-full text-xs sm:text-sm flex items-center gap-2 cursor-not-allowed opacity-80 shadow-none border border-stone-300/60"
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span>Contact (coming soon)</span>
+              </button>
+              <p className="text-[11px] text-stone-400">
+                Direct owner messaging is under development.
+              </p>
+            </div>
           </div>
 
         </div>

@@ -194,8 +194,8 @@ export const MOCK_LISTINGS = [
     lng: 77.6412,
     rentPerPerson: 22000,
     deposit: 50000,
-    roomType: "SINGLE",
-    furnishing: "FULLY_FURNISHED",
+    roomType: "PRIVATE_ROOM",
+    furnishing: "FURNISHED",
     genderAllowed: "ANY",
     currentFlatmates: 2,
     spotsAvailable: 1,
@@ -210,7 +210,7 @@ export const MOCK_LISTINGS = [
     owner: {
       id: "u1",
       name: "Ananya Sharma",
-      verified: true
+      emailVerified: true
     },
     ownedByMe: false,
     createdAt: "2026-11-20T10:00:00Z"
@@ -226,9 +226,9 @@ export const MOCK_LISTINGS = [
     lng: 77.6446,
     rentPerPerson: 19500,
     deposit: 45000,
-    roomType: "SINGLE",
-    furnishing: "FULLY_FURNISHED",
-    genderAllowed: "FEMALE_ONLY",
+    roomType: "PRIVATE_ROOM",
+    furnishing: "FURNISHED",
+    genderAllowed: "FEMALE",
     currentFlatmates: 2,
     spotsAvailable: 1,
     amenities: ["High-Speed Wi-Fi", "Air Conditioning", "Gym & Pool", "Washing Machine", "Power Backup", "Covered Parking", "Lift", "Gated Security"],
@@ -241,7 +241,7 @@ export const MOCK_LISTINGS = [
     owner: {
       id: "u2",
       name: "Pooja Hegde",
-      verified: true
+      emailVerified: true
     },
     ownedByMe: false,
     createdAt: "2026-11-21T14:30:00Z"
@@ -257,9 +257,9 @@ export const MOCK_LISTINGS = [
     lng: 72.8295,
     rentPerPerson: 28000,
     deposit: 60000,
-    roomType: "SHARED",
-    furnishing: "FULLY_FURNISHED",
-    genderAllowed: "MALE_ONLY",
+    roomType: "SHARED_ROOM",
+    furnishing: "FURNISHED",
+    genderAllowed: "MALE",
     currentFlatmates: 3,
     spotsAvailable: 1,
     amenities: ["High-Speed Wi-Fi", "Air Conditioning", "Washing Machine", "Modular Kitchen", "Maid & Cook", "Balcony"],
@@ -272,7 +272,7 @@ export const MOCK_LISTINGS = [
     owner: {
       id: "u3",
       name: "Rohan Kapoor",
-      verified: true
+      emailVerified: true
     },
     ownedByMe: false,
     createdAt: "2026-11-22T09:15:00Z"
@@ -303,7 +303,7 @@ export const MOCK_LISTINGS = [
     owner: {
       id: "u4",
       name: "Sneha Nair",
-      verified: true
+      emailVerified: true
     },
     ownedByMe: false,
     createdAt: "2026-11-23T11:45:00Z"
@@ -319,8 +319,8 @@ export const MOCK_LISTINGS = [
     lng: 78.3489,
     rentPerPerson: 17000,
     deposit: 34000,
-    roomType: "SINGLE",
-    furnishing: "FULLY_FURNISHED",
+    roomType: "PRIVATE_ROOM",
+    furnishing: "FURNISHED",
     genderAllowed: "ANY",
     currentFlatmates: 2,
     spotsAvailable: 1,
@@ -334,9 +334,40 @@ export const MOCK_LISTINGS = [
     owner: {
       id: "u5",
       name: "Meera Sen",
-      verified: true
+      emailVerified: true
     },
     ownedByMe: false,
     createdAt: "2026-11-23T16:20:00Z"
+  },
+  {
+    id: "l6",
+    title: "Spacious Private Room in Salt Lake Sector V Near Tech Hub",
+    description: "Quiet and well-ventilated private room in a peaceful 3BHK flat in Salt Lake Sector V, Kolkata. Walking distance to Wipro circle, metro station, and local markets. Looking for a respectful flatmate.",
+    city: "Kolkata",
+    locality: "Salt Lake Sector V",
+    addressHint: "Near College More & Sector V Metro",
+    lat: 22.5726,
+    lng: 88.4311,
+    rentPerPerson: 12500,
+    deposit: 25000,
+    roomType: "PRIVATE_ROOM",
+    furnishing: "FURNISHED",
+    genderAllowed: "ANY",
+    currentFlatmates: 2,
+    spotsAvailable: 1,
+    amenities: ["High-Speed Wi-Fi", "Air Conditioning", "Attached Washroom", "Power Backup", "Balcony", "Gated Security"],
+    availableFrom: "2026-12-01",
+    status: "ACTIVE",
+    photos: [
+      { id: "p12", url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80", position: 0 },
+      { id: "p13", url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80", position: 1 }
+    ],
+    owner: {
+      id: "u6",
+      name: "Sourav Ganguly",
+      emailVerified: true
+    },
+    ownedByMe: false,
+    createdAt: "2026-11-24T12:00:00Z"
   }
 ];

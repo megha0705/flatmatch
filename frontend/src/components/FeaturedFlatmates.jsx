@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { MOCK_FLATMATES } from '../data/mockData';
-import { MapPin, Briefcase, Moon, Sun, Sparkles, Heart, Filter, Coffee, Check, Shield } from 'lucide-react';
+import { MapPin, Briefcase, Sparkles, Heart, Sun, Moon, Check } from 'lucide-react';
+import EmailVerifiedBadge from './EmailVerifiedBadge';
+import { formatIndianPrice } from '../utils/formatters';
 
 export default function FeaturedFlatmates({ onConnect, selectedCity, onSelectCity }) {
   const [activeCity, setActiveCity] = useState(selectedCity || 'All');
@@ -8,7 +10,7 @@ export default function FeaturedFlatmates({ onConnect, selectedCity, onSelectCit
   const [savedIds, setSavedIds] = useState([]);
   const [connectedIds, setConnectedIds] = useState([]);
 
-  const cities = ['All', 'Bangalore', 'Mumbai', 'Pune', 'Delhi NCR', 'Hyderabad'];
+  const cities = ['All', 'Kolkata', 'Bangalore', 'Mumbai', 'Pune', 'Delhi NCR', 'Hyderabad'];
 
   const filteredFlatmates = MOCK_FLATMATES.filter((f) => {
     if (activeCity !== 'All' && f.city.toLowerCase() !== activeCity.toLowerCase()) {
@@ -115,11 +117,11 @@ export default function FeaturedFlatmates({ onConnect, selectedCity, onSelectCit
 
                 {/* Name & Basic Info Overlay */}
                 <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="text-xl font-bold tracking-tight">
                       {flatmate.name}, {flatmate.age}
                     </h3>
-                    <Shield className="w-4 h-4 text-emerald-400 fill-emerald-400/20" title="ID & Workplace Verified" />
+                    <EmailVerifiedBadge />
                   </div>
                   <div className="flex items-center gap-3 text-xs text-stone-200 mt-1">
                     <span className="flex items-center gap-1">
@@ -140,7 +142,7 @@ export default function FeaturedFlatmates({ onConnect, selectedCity, onSelectCit
                       {flatmate.area}, {flatmate.city}
                     </span>
                     <span className="font-bold text-stone-900 bg-stone-100 px-2.5 py-1 rounded-md">
-                      ₹{flatmate.budgetMin.toLocaleString()} - ₹{flatmate.budgetMax.toLocaleString()}/mo
+                      {formatIndianPrice(flatmate.budgetMin)} - {formatIndianPrice(flatmate.budgetMax)}/mo
                     </span>
                   </div>
 
