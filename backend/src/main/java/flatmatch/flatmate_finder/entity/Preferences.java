@@ -17,7 +17,8 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "preferences")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class Preferences extends BaseEntity {
 
     @Id
